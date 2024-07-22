@@ -1,5 +1,6 @@
 .venv/
 .idea/
+src/experiments_orchestration/__pycache__/
 src/fudge_factor_experiments
 create_fudge_factor_tables.sql
 
