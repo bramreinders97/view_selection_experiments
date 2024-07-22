@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "vst-dag-experiments"
+version = "0.1.0"
+description = ""
+authors = ["BramReinders <b.reinders@student.tue.nl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11.5"
+tqdm = "^4.66.1"
+jupyter = "^1.0.0"
+dbt-core = "1.7.10"
+dbt-postgres = "^1.6.0"
+matplotlib = "^3.9.0"
+seaborn = "^0.13.2"
+psycopg2 = "^2.9.9"
+pandas = "^2.2.2"
+ruamel-yaml = "^0.18.6"
+SQLAlchemy = "^2.0.30"
+scipy = "^1.13.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

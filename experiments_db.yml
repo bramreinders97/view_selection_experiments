@@ -1,0 +1,11 @@
+experiments:
+  credentials:
+    default:
+      type: postgres
+      threads: 8
+      host: "localhost"
+      port: 5436
+      user: "postgres"
+      password: "postgres"
+      dbname: "experiments"
+      schema: "public"

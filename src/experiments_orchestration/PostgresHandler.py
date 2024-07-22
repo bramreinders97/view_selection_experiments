@@ -1,0 +1,152 @@
+"""PostgresHandler class."""
+
+from typing import Dict, List, Tuple
+
+import datetime
+import psycopg2
+from psycopg2.extensions import connection, cursor
+from ruamel.yaml.comments import CommentedMap
+
+
+class PostgresHandler:
+    """This class handles all queries that need to be run against the postgres DB."""
+
+    def __init__(self, db_creds: CommentedMap):
+        """Initialize the class variables."""
+        self.db_host = db_creds["host"]
+        self.db_port = db_creds["port"]
+        self.db_name = db_creds["dbname"]
+        self.db_user = db_creds["user"]
+        self.db_password = db_creds["password"]
+        self.db_schema = db_creds["schema"]
+        self.conn: None | connection = None
+        self.cursor: None | cursor = None
+
+    def _open_connection(self):
+        """Open the connection to the DB."""
+        self.conn = psycopg2.connect(
+            host=self.db_host,
+            port=self.db_port,
+            dbname=self.db_name,
+            user=self.db_user,
+            password=self.db_password,
+        )
+
+        self.cursor = self.conn.cursor()
+
+    def _close_connection(self):
+        """Close the connection to the DB."""
+        self.cursor.close()
+        self.conn.close()
+
+    def _execute_fetch_query(self, query) -> List[Tuple]:
+        """Return all tuples from the provided query."""
+        self._open_connection()
+
+        self.cursor.execute(query)
+        all_rows = self.cursor.fetchall()
+
+        self._close_connection()
+        return all_rows
+
+    def _get_table_content(self, table_name: str, cols: str = "*") -> List[Tuple]:
+        """Return all tuples from the table `table_name`."""
+        query = f"SELECT {cols} " + f"FROM {self.db_schema}.{table_name};"
+        result = self._execute_fetch_query(query)
+        return result
+
+    def get_last_invocation_id(self):
+        """Return the invocation_id of the last observed run of the to be investigated DAG."""
+        return self._get_table_content("last_invocation_id_with_total_runtime")[0]
+
+    def _execute_insert(self, query: str, params: tuple, returning: bool = False):
+        """Execute an INSERT operation with the provided query and parameters."""
+        self._open_connection()
+        try:
+            self.cursor.execute(query, params)
+
+            if returning:
+                var_to_return = self.cursor.fetchone()[0]
+
+            self.conn.commit()  # Commit to save changes
+        except psycopg2.Error as e:
+            print(f"An error occurred: {e}")
+            self.conn.rollback()  # Rollback in case of error
+        finally:
+            self._close_connection()
+            if returning:
+                return var_to_return
+
+    def store_run_info(self, invocation_id: str, limit_fraction: float, limit_vars: str, dag: str, total_runtime: float,
+                       logs: str, with_materialization: bool):
+        """
+        Store information about a DBT run in the 'DBTRuns' table.
+
+        Parameters:
+            invocation_id (str): Unique identifier for the dbt run.
+            limit_vars (str): Tuple of the limits imposed on the source tables.
+            dag (str): Name of the DAG of this run.
+            logs (str): Logs generated during the run.
+            with_materialization (bool): if True: type -> `with_materialization`, else type -> `all_views`.
+
+        """
+        query = f"""
+        INSERT INTO {self.db_schema}.dbt_runs (invocation_id, limit_fraction, limit_vars, DAG, total_runtime, logs, type, experiment_setup)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+        """
+        self._execute_insert(query, (invocation_id, limit_fraction, limit_vars, dag, total_runtime, logs,
+                                     'with_materialization' if with_materialization else 'all_views', 'A'))
+
+    def store_timeline_info(self, advice_id: int | None = None, invocation_id: int | None = None):
+        """
+        Store information about an event in the 'Timeline' table.
+
+        Parameters:
+            advice_id (Optional[int]): The associated advice_id from the 'VstAdvise' table, can be NULL.
+            invocation_id (Optional[int]): The associated invocation_id from the 'DBTRuns' table, can be NULL.
+        """
+        query = f"""
+        INSERT INTO {self.db_schema}.timeline (type, advice_id, invocation_id, run_at)
+        VALUES (%s, %s, %s, %s);
+        """
+        self._execute_insert(query, ('advice' if advice_id else 'dbt_run', advice_id,
+                                     invocation_id, datetime.datetime.now()))
+
+    def store_advice_info(self, advice: str, dag: str, limit_fraction: float) -> int:
+        """
+        Store advice information in the 'VstAdvise' table.
+
+        Parameters:
+            advice (str): The advice to be stored.
+            dag (str): Name of the DAG of this run.
+
+        This method inserts a new row into the 'VstAdvise' table with the provided advice output.
+        The advice_id is automatically generated by the database as it's set to auto-increment.
+
+        Return the advice_id of the newly inserted row.
+        """
+        query = f"""
+        INSERT INTO {self.db_schema}.vst_advise (advice_output, dag, limit_fraction, experiment_setup)
+        VALUES (%s, %s, %s, %s) RETURNING advice_id;
+        """
+        advice_id = self._execute_insert(query, (advice, dag, limit_fraction, 'A'), returning=True)
+        return advice_id
+
+    def store_fudge_factor_experiment(self, experiment: str, dag: str, node: str, naive_cost: int,
+                                      mater_aware_cost: int, distance: int, n_outgoing_mater_node: int,
+                                      actual_cost: int = 0):
+        """Actual cost = 0 -> no actual cost calculation in experiment"""
+        if actual_cost > 0:
+            query = f"""
+                INSERT INTO {self.db_schema}.fudge_factor_experiments_with_outgoing_edges_and_actual_cost (experiment_id, dag, node, naive_cost, materialization_aware_cost, distance_mater_node, outgoing_edges_mater_node, actual_cost)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+                """
+            self._execute_insert(query, (
+                experiment, dag, node, naive_cost, mater_aware_cost, distance, n_outgoing_mater_node, actual_cost))
+        else:
+            query = f"""
+                INSERT INTO {self.db_schema}.fudge_factor_experiments_with_outgoing_edges (experiment_id, dag, node, naive_cost, materialization_aware_cost, distance_mater_node, outgoing_edges_mater_node)
+                VALUES (%s, %s, %s, %s, %s, %s, %s);
+                """
+            self._execute_insert(query, (
+                experiment, dag, node, naive_cost, mater_aware_cost, distance, n_outgoing_mater_node))

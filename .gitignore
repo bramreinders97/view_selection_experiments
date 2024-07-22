@@ -1,0 +1,6 @@
+.venv/
+src/fudge_factor_experiments
+create_fudge_factor_tables.sql
+
+*.ipynb
+!inspect_results_experiments_setup_A.ipynb
