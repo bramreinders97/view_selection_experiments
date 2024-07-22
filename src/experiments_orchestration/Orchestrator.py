@@ -1,11 +1,10 @@
 """Orchestrator class"""
 from Experiment import Experiment
-from vars_to_set import N_RUNS, COMBINATIONS  # ALL_DAGS, LIMIT_FRACTIONS, N_RUNS
+from vars_to_set import N_RUNS, COMBINATIONS
 
 
 def run_all_experiments():
 
-    # total_number_of_runs = 2 * len(ALL_DAGS) * len(LIMIT_FRACTIONS) * N_RUNS
     total_number_of_runs = 2 * len(COMBINATIONS) * N_RUNS
     i = 0
 

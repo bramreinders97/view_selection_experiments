@@ -3,33 +3,6 @@ N_RUNS = 6000
 
 N_RUNS_FUDGE_FACTOR = 1000
 
-# ALL_DAGS = [
-#     # 'My_Own_000',
-#     'My_Own_001',
-#     # 'My_Own_010',
-#     # 'My_Own_011',
-#     # 'My_Own_100',
-#     # 'My_Own_101',
-#     # 'My_Own_110',
-#     # 'My_Own_111',
-#     # 'Toy_Example_Cost_Calculation'
-# ]
-
-# ALL_DAGS = [
-#     'F1_Data_Pipeline',
-#     'Glue_AWS',
-#     'Transfermarkt_altered',
-# ]
-
-# LIMIT_FRACTIONS = [
-#     1,
-#     # 0.5,
-#     # 0.05,
-#     # 0.005,
-#     0.0005,
-# ]
-
-
 COMBINATIONS = [
     # {
     #     'dag': 'My_Own_001',

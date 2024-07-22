@@ -52,7 +52,7 @@ class PythonHandler:
         self._call_dbt_run_select(working_dir)
         return dbt_run_exclude_output
 
-    def _extract_parentheses_content(self, s: str) -> str:
+    def _extract_parentheses_content(self, s: str) -> str | None:
         start = s.find('(')
         end = s.find(')', start)
         if start != -1 and end != -1:
@@ -63,7 +63,6 @@ class PythonHandler:
     def get_advice(self, working_dir: str) -> str | None:
         vst_main_file = VST_ADVISE_PATH
         command = [self.python_exe, vst_main_file]
-        # advise = subprocess.run(command, cwd=working_dir, text=True, capture_output=True).stdout
         advise = subprocess.run(command, cwd=working_dir, text=True, capture_output=True).stdout.strip()
         advise = self._extract_parentheses_content(advise)
         return advise
