@@ -50,10 +50,3 @@ VST_ADVISE_PATH = (r'C:/Users/bramr/OneDrive/Documenten/Blenddata/Initiële uitw
 
 EXPERIMENT_DB_YML_PATH = (r'C:\Users\bramr\OneDrive\Documenten\Blenddata\Initiële uitwerkingen '
                           r'opdrachten\DBT\Code\Experiments\experiments_db.yml')
-
-ALTERED_VST_PATH = (r'C:\Users\bramr\OneDrive\Documenten\Blenddata\Initiële uitwerkingen '
-                    r'opdrachten\DBT\Code\Experiments\src\fudge_factor_experiments\altered_vst_code\main.py')
-
-ALTERED_VST_COST_DICT_PATH = (r'C:\Users\bramr\OneDrive\Documenten\Blenddata\Initiële uitwerkingen '
-                               r'opdrachten\DBT\Code\Experiments\src\fudge_factor_experiments\altered_vst_code'
-                               r'\dump_model_costs_dict.py')
