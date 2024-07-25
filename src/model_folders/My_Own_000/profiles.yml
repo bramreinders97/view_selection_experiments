@@ -1,0 +1,53 @@
+local_db:
+  outputs:
+
+    dbt_run_local:
+      type: "postgres"
+      threads: 8
+      host: "localhost"
+      port: 5437
+      user: "postgres"
+      pass: "postgres"
+      dbname: "postgres"
+      schema: "transformed"
+
+    test:
+      type: "postgres"
+      threads: 8
+      host: "postgres"
+      port: 5432
+      user: "{{ env_var('DBT_USER') }}"
+      pass: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      dbname: "bram-vst"
+      schema: "transformed"
+
+  target: "{{ env_var('ENVIRONMENT', 'dbt_run_local') }}"
+
+elementary:
+  outputs:
+    default:
+      type: postgres
+      host: "localhost"
+      user: "postgres"
+      password: "postgres"
+      port: 5437
+      dbname: "postgres"
+      schema: "transformed_elementary" # elementary schema, usually [schema name]_elementary
+      threads: 8
+      keepalives_idle: 0 # default 0 seconds
+      connect_timeout: 10 # default 10 seconds
+      # search_path: public # optional, not recommended
+      # role: [optional, set the role dbt assumes when executing queries]
+      # sslmode: [optional, set the sslmode used to connect to the database]
+
+view_selection_tool:
+  outputs:
+    default:
+      type: postgres
+      threads: 8
+      host: "localhost"
+      port: 5437
+      user: "postgres"
+      password: "postgres"
+      dbname: "postgres"
+      schema: "transformed_view_selection_tool"

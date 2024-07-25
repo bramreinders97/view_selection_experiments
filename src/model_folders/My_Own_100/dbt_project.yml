@@ -1,0 +1,59 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: my_own_100
+version: 1.0.0
+config-version: 2
+
+profile: my_own_100
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: [models]
+analysis-paths: [analyses]
+test-paths: [tests]
+seed-paths: [seeds]
+macro-paths: [macros]
+snapshot-paths: [snapshots]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - target
+  - dbt_packages
+
+models:
+  my_own_100:
+    2_group_bys_2_subqueries:
+      +materialized: view
+    avg_minute:
+      +materialized: view
+    stg_appearances:
+      +materialized: view
+    stg_game_events:
+      +materialized: table
+    stg_lineups:
+      +materialized: view
+    stg_market_value:
+      +materialized: table
+
+    marts:
+      +materialized: table
+
+  elementary:
+    +schema: elementary
+  view_selection_tool:
+    +schema: view_selection_tool
+
+
+vars:
+  total_stg_table_sizes:
+    stg_appearances: 30022272
+    stg_game_events: 6433344
+    stg_lineups: 30022272
+    stg_market_value: 3153600
+
+  limit_used_in_experiment:
+    stg_appearances: 30022272
+    stg_game_events: 6433344
+    stg_lineups: 30022272
+    stg_market_value: 3153600

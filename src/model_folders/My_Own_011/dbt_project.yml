@@ -1,0 +1,75 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: my_own_011
+version: 1.0.0
+config-version: 2
+
+profile: my_own_011
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: [models]
+analysis-paths: [analyses]
+test-paths: [tests]
+seed-paths: [seeds]
+macro-paths: [macros]
+snapshot-paths: [snapshots]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - target
+  - dbt_packages
+
+models:
+  my_own_011:
+    avg_game_id_per_season:
+      +materialized: view
+    avg_home_club_goals_per_season:
+      +materialized: view
+    avg_market_value_per_player:
+      +materialized: view
+    avg_market_value_per_season:
+      +materialized: view
+    avg_player_id_per_season:
+      +materialized: view
+    avg_season_per_player:
+      +materialized: view
+    lineups_grouped_by_players:
+      +materialized: view
+    max_player_id_per_season:
+      +materialized: table
+    only_substitutes:
+      +materialized: view
+    stg_games:
+      +materialized: view
+    stg_lineups:
+      +materialized: view
+    stg_market_value:
+      +materialized: table
+    stg_players:
+      +materialized: view
+
+    marts:
+      +materialized: table
+
+  elementary:
+    +schema: elementary
+  view_selection_tool:
+    +schema: view_selection_tool
+
+
+vars:
+  total_stg_table_sizes:
+    stg_lineups: 30022272
+    stg_games: 1072224
+    stg_players: 1576800
+    stg_market_value: 3153600
+    stg_game_events: 6433344
+
+  limit_used_in_experiment:
+    stg_lineups: 15012
+    stg_games: 537
+    stg_players: 789
+    stg_market_value: 1577
+    stg_game_events: 3217

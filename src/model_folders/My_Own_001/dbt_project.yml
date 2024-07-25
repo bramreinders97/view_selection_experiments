@@ -1,0 +1,94 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: my_own_001
+version: 1.0.0
+config-version: 2
+
+profile: my_own_001
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: [models]
+analysis-paths: [analyses]
+test-paths: [tests]
+seed-paths: [seeds]
+macro-paths: [macros]
+snapshot-paths: [snapshots]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - target
+  - dbt_packages
+
+
+models:
+  my_own_001:
+    all_constructor_results:
+      +materialized: view
+    avg_pit_stop_time_per_race_id:
+      +materialized: view
+    avg_points_per_race:
+      +materialized: view
+    avg_round_per_race_id:
+      +materialized: view
+    driver_id_below_10:
+      +materialized: view
+    join_constructor_results_with_avg_pitstop_times:
+      +materialized: view
+    laps_better_than_10th:
+      +materialized: view
+    laps_joined_with_drivers:
+      +materialized: view
+    laps_joined_with_races:
+      +materialized: view
+    only_first_30_laps_of_races:
+      +materialized: view
+    only_race_qualy_combis_with_driver_number_below_10:
+      +materialized: view
+    qualy_joined_with_pit_stops_and_constructor_results:
+      +materialized: view
+    results_worth_less_than_8_points:
+      +materialized: view
+    stg_constructor_results:
+      +materialized: view
+    stg_constructors:
+      +materialized: view
+    stg_drivers:
+      +materialized: view
+    stg_lap_times:
+      +materialized: view
+    stg_pit_stops:
+      +materialized: view
+    stg_qualifying:
+      +materialized: view
+    stg_races:
+      +materialized: view
+
+    marts:
+      +materialized: table
+
+  elementary:
+    +schema: elementary
+  view_selection_tool:
+    +schema: view_selection_tool
+
+
+vars:
+  total_stg_table_sizes:
+    stg_constructor_results: 474510
+    stg_constructors: 211
+    stg_drivers: 857
+    stg_lap_times: 40806687
+    stg_pit_stops: 1701394
+    stg_qualifying: 934255
+    stg_races: 47323
+
+  limit_used_in_experiment:
+    stg_constructor_results: 474510
+    stg_constructors: 211
+    stg_drivers: 857
+    stg_lap_times: 40806687
+    stg_pit_stops: 1701394
+    stg_qualifying: 934255
+    stg_races: 47323

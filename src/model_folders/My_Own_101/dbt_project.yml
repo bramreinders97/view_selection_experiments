@@ -1,0 +1,89 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: my_own_101
+version: 1.0.0
+config-version: 2
+
+profile: my_own_101
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: [models]
+analysis-paths: [analyses]
+test-paths: [tests]
+seed-paths: [seeds]
+macro-paths: [macros]
+snapshot-paths: [snapshots]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - target
+  - dbt_packages
+
+models:
+  my_own_101:
+    avg_lap_times_drivers:
+      +materialized: view
+    avg_pit_stop_duration:
+      +materialized: view
+    avg_sprint_and_race_pos_constructors:
+      +materialized: view
+    avg_sprint_and_race_pos_drivers:
+      +materialized: view
+    join_pits_stops_lap_times:
+      +materialized: view
+    join_qualy_constr_drivers:
+      +materialized: view
+    join_races_and_race_result_tables:
+      +materialized: view
+    stg_constructors:
+      +materialized: view
+    stg_driver_standings:
+      +materialized: table
+    stg_drivers:
+      +materialized: table
+    stg_lap_times:
+      +materialized: view
+    stg_pit_stops:
+      +materialized: view
+    stg_qualifying:
+      +materialized: view
+    stg_races:
+      +materialized: view
+    stg_results:
+      +materialized: view
+    stg_sprint_results:
+      +materialized: view
+
+    marts:
+      +materialized: table
+
+  elementary:
+    +schema: elementary
+  view_selection_tool:
+    +schema: view_selection_tool
+
+
+vars:
+  total_stg_table_sizes:
+    stg_constructors: 211
+    stg_drivers: 857
+    stg_driver_standings: 958564
+    stg_lap_times: 40806687
+    stg_pit_stops: 1701394
+    stg_qualifying: 934255
+    stg_races: 47323
+    stg_sprint_results: 126240
+    stg_results: 950520
+
+  limit_used_in_experiment:
+    stg_constructors: 106
+    stg_drivers: 429
+    stg_driver_standings: 479282
+    stg_lap_times: 20403344
+    stg_pit_stops: 850697
+    stg_qualifying: 467128
+    stg_races: 23662
+    stg_sprint_results: 63120
+    stg_results: 475260

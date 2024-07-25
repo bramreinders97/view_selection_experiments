@@ -4,7 +4,7 @@ import os
 import subprocess
 from typing import Dict
 
-from src.experiments_orchestration.vars_to_set import VST_ADVISE_PATH, ALTERED_VST_PATH, FOLDER_CONTAINING_DAGS, ALTERED_VST_COST_DICT_PATH
+from src.experiments_orchestration.vars_to_set import VST_ADVISE_PATH, FOLDER_CONTAINING_DAGS # ALTERED_VST_PATH, , ALTERED_VST_COST_DICT_PATH
 
 
 def find_exe(which: str):
@@ -67,21 +67,21 @@ class PythonHandler:
         advise = self._extract_parentheses_content(advise)
         return advise
 
-    def get_model_info_dict(self) -> Dict:
-        """Used for Fudge Factor Experiments 2.0"""
-        altered_vst_main_file = ALTERED_VST_PATH
-        wd = os.path.join(FOLDER_CONTAINING_DAGS, self.dag_name)
-        result = subprocess.run([self.python_exe, altered_vst_main_file], cwd=wd, capture_output=True, text=True)
-        print(result.stderr)
-        output = result.stdout.strip()
-        model_info_dict = json.loads(output)
-        return model_info_dict
-
-    def get_cost_dict(self) -> Dict:
-        """Used for fudge calculation Experiments 2.0"""
-        altered_vst_cost_file = ALTERED_VST_COST_DICT_PATH
-        wd = os.path.join(FOLDER_CONTAINING_DAGS, self.dag_name)
-        result = subprocess.run([self.python_exe, altered_vst_cost_file], cwd=wd, capture_output=True, text=True)
-        output = result.stdout.strip()
-        model_info_dict = json.loads(output)
-        return model_info_dict
+    # def get_model_info_dict(self) -> Dict:
+    #     """Used for Fudge Factor Experiments 2.0"""
+    #     altered_vst_main_file = ALTERED_VST_PATH
+    #     wd = os.path.join(FOLDER_CONTAINING_DAGS, self.dag_name)
+    #     result = subprocess.run([self.python_exe, altered_vst_main_file], cwd=wd, capture_output=True, text=True)
+    #     print(result.stderr)
+    #     output = result.stdout.strip()
+    #     model_info_dict = json.loads(output)
+    #     return model_info_dict
+    #
+    # def get_cost_dict(self) -> Dict:
+    #     """Used for fudge calculation Experiments 2.0"""
+    #     altered_vst_cost_file = ALTERED_VST_COST_DICT_PATH
+    #     wd = os.path.join(FOLDER_CONTAINING_DAGS, self.dag_name)
+    #     result = subprocess.run([self.python_exe, altered_vst_cost_file], cwd=wd, capture_output=True, text=True)
+    #     output = result.stdout.strip()
+    #     model_info_dict = json.loads(output)
+    #     return model_info_dict

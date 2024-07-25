@@ -1,0 +1,68 @@
+analysis-paths:
+  - analyses
+clean-targets:
+  - target
+  - dbt_packages
+config-version: 2
+macro-paths:
+  - macros
+model-paths:
+  - models
+models:
+  dbt_chatGPT_suggestion:
+    stg_accounts:
+      +materialized: view   # test if comment is still there?
+    stg_groups:
+      +materialized: view
+    stg_transactions_1:
+      +materialized: view
+    stg_transactions_2:
+      +materialized: view
+    stg_transactions_3:
+      +materialized: view
+    stg_transactions_4:
+      +materialized: view
+    int_transactions_and_accounts_and_groups_joined:
+      +materialized: table
+    int_union_of_transactions:
+      +materialized: view
+    int_grouped_on_group_id:
+      +materialized: view
+    int_accounts_and_groups_joined:
+      +materialized: table
+
+    marts:
+      +materialized: table
+
+  elementary:
+    +schema: elementary
+  view_selection_tool:
+    +schema: view_selection_tool
+
+name: dbt_chatGPT_suggestion
+profile: local_db
+seed-paths:
+  - seeds
+snapshot-paths:
+  - snapshots
+test-paths:
+  - tests
+vars:
+  total_stg_table_sizes:
+    stg_accounts: 10000000
+    stg_groups: 1000000
+    stg_transactions_1: 50000000
+    stg_transactions_2: 50000000
+    stg_transactions_3: 50000000
+    stg_transactions_4: 50000000
+
+  limit_used_in_experiment:
+    stg_accounts: 5000
+    stg_groups: 500
+    stg_transactions_1: 25000
+    stg_transactions_2: 25000
+    stg_transactions_3: 25000
+    stg_transactions_4: 25000
+
+
+version: 0.1.0

@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: transfermarkt
+    database: transfermarkt
+    schema: synthetic_data
+    tables:
+      - name: appearances
+      - name: clubs
+      - name: competitions
+      - name: game_events
+      - name: game_lineups
+      - name: games
+      - name: market_value_development
+      - name: players

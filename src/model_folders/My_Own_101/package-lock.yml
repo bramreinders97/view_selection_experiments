@@ -1,0 +1,8 @@
+packages:
+- package: elementary-data/elementary
+  version: 0.13.0
+- local: "C:/Users/bramr/OneDrive/Documenten/Blenddata/Initi\xEBle uitwerkingen opdrachten/DBT/Code/The\
+    \ Tool/view_selection_tool"
+- package: dbt-labs/dbt_utils
+  version: 1.1.1
+sha1_hash: 999f361ab0d5798e067d547acc9f66aab7107e5d

@@ -1,33 +1,31 @@
 """ VARS TO SET """
 N_RUNS = 6000
 
-N_RUNS_FUDGE_FACTOR = 1000
-
 COMBINATIONS = [
-    # {
-    #     'dag': 'My_Own_001',
-    #     'lf': 0.0005
-    # },
+    {
+        'dag': 'My_Own_001',
+        'lf': 0.0005
+    },
     {
         'dag': 'My_Own_001',
         'lf': 1
     },
-    # {
-    #     'dag': 'My_Own_010',
-    #     'lf': 0.0005
-    # },
-    # {
-    #     'dag': 'My_Own_010',
-    #     'lf': 0.5
-    # },
-    # {
-    #     'dag': 'My_Own_100',
-    #     'lf': 1
-    # },
-    # {
-    #     'dag': 'My_Own_101',
-    #     'lf': 0.005
-    # },
+    {
+        'dag': 'My_Own_010',
+        'lf': 0.0005
+    },
+    {
+        'dag': 'My_Own_010',
+        'lf': 0.5
+    },
+    {
+        'dag': 'My_Own_100',
+        'lf': 1
+    },
+    {
+        'dag': 'My_Own_101',
+        'lf': 0.005
+    },
     {
         'dag': 'My_Own_101',
         'lf': 0.5

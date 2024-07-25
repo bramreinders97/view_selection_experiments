@@ -1,0 +1,26 @@
+my_own_111:
+  outputs:
+      dbt_run_local:
+        type: "postgres"
+        threads: 8
+        host: "localhost"
+        port: 5436
+        user: "postgres"
+        pass: "postgres"
+        dbname: "transfermarkt"
+        schema: "output_own_111"
+
+  target: dbt_run_local
+
+
+view_selection_tool:
+  outputs:
+    default:
+      type: postgres
+      threads: 8
+      host: "localhost"
+      port: 5436
+      user: "postgres"
+      password: "postgres"
+      dbname: "transfermarkt"
+      schema: "output_own_111_view_selection_tool"

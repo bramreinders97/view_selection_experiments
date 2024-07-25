@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: local_postgres
+    database: postgres
+    schema: public
+    tables:
+      - name: transactions_1
+        columns:
+          - name: id
+          - name: amount
+          - name: account_id
+
+      - name: transactions_2
+        columns:
+          - name: id
+          - name: amount
+          - name: account_id
+
+      - name: transactions_3
+        columns:
+          - name: id
+          - name: amount
+          - name: account_id
+
+      - name: transactions_4
+        columns:
+          - name: id
+          - name: amount
+          - name: account_id
+
+      - name: accounts
+        columns:
+          - name: id
+          - name: description
+          - name: group_id
+
+      - name: groups
+        columns:
+          - name: id
+          - name: group_description

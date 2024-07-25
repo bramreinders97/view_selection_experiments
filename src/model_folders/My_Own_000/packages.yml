@@ -1,0 +1,7 @@
+packages:
+  - package: elementary-data/elementary
+    version: 0.13.0
+    ## Docs: https://docs.elementary-data.com
+
+  #My own package
+  - local: "C:/Users/bramr/OneDrive/Documenten/Blenddata/Initiële uitwerkingen opdrachten/DBT/Code/The Tool/view_selection_tool"
