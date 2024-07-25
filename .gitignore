@@ -4,5 +4,9 @@ src/experiments_orchestration/__pycache__/
 src/fudge_factor_experiments
 create_fudge_factor_tables.sql
 
+raw_means_and_ci.csv
+results-all-bars-in-one-row.png
+results-bar-charts.png
+
 *.ipynb
 !inspect_results_experiments_setup_A.ipynb
