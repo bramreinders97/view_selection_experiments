@@ -1,5 +1,6 @@
 ## Welcome
 Hello, welcome to this repository! The code in this repo is used to run the experiments for my thesis on the View Selection Problem in dbt (Data Build Tool).
+The source code used for all workloads can be found [here](https://www.kaggle.com/datasets/bramreinders/view-selection-dbt-datasets-used).
 
 _link to thesis once it's online_
 
